@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 240 10% 3.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 240 10% 3.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 240 10% 3.9%;
+            --primary: 240 5.9% 10%;
+            --primary-foreground: 0 0% 98%;
+            --secondary: 240 4.8% 95.9%;
+            --secondary-foreground: 240 5.9% 10%;
+            --muted: 240 4.8% 95.9%;
+            --muted-foreground: 240 3.8% 46.1%;
+            --accent: 240 4.8% 95.9%;
+            --accent-foreground: 240 5.9% 10%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 0 0% 98%;
+            --border: 240 5.9% 90%;
+            --input: 240 5.9% 90%;
+            --ring: 240 5.9% 10%;
+            --radius: 0.5rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: hsl(var(--muted));
+            color: hsl(var(--foreground));
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .profile-container {
+            width: 100%;
+            max-width: 28rem;
+        }
+        
+        .card {
+            background-color: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            border-radius: calc(var(--radius) + 2px);
+            border: 1px solid hsl(var(--border));
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+        
+        .avatar {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background-color: hsl(var(--muted));
+            border: 2px solid hsl(var(--border));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .avatar-fallback {
+            font-size: 1.5rem;
+            color: hsl(var(--muted-foreground));
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: hsl(var(--foreground));
+        }
+        
+        .card-description {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 0.75rem;
+        }
+        
+        .badges {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: calc(var(--radius) - 2px);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+            border: 1px solid hsl(var(--border));
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: hsl(var(--foreground));
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .interests-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+        }
+        
+        .interest-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: calc(var(--radius) - 2px);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+        
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            background-color: hsl(var(--muted));
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid transparent;
+        }
+        
+        .contact-item:hover {
+            background-color: hsl(var(--accent));
+            border-color: hsl(var(--border));
+        }
+        
+        .contact-icon {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            flex-shrink: 0;
+        }
+        
+        .contact-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .contact-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+        }
+        
+        .contact-value {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            word-break: break-all;
+        }
+        
+        .edit-button {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .edit-button:hover {
+            background-color: hsl(var(--primary));
+            transform: scale(1.05);
+        }
+        
+        .dialog-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background-color: rgb(0 0 0 / 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .dialog-content {
+            background-color: hsl(var(--background));
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            width: 100%;
+            max-width: 32rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .dialog-header {
+            padding: 1.5rem 1.5rem 0;
+        }
+        
+        .dialog-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+        
+        .dialog-description {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+        
+        .dialog-body {
+            padding: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: hsl(var(--foreground));
+        }
+        
+        .form-input {
+            width: 100%;
+            height: 2.5rem;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background-color: hsl(var(--background));
+            font-size: 0.875rem;
+            color: hsl(var(--foreground));
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: hsl(var(--ring));
+            box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+        }
+        
+        .form-textarea {
+            height: 5rem;
+            resize: vertical;
+            padding-top: 0.5rem;
+        }
+        
+        .dialog-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            justify-content: end;
+            gap: 0.5rem;
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            height: 2.5rem;
+            padding: 0 1rem;
+        }
+        
+        .button-primary {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+        
+        .button-primary:hover {
+            background-color: hsl(var(--primary) / 0.9);
+        }
+        
+        .button-outline {
+            border: 1px solid hsl(var(--border));
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+        
+        .button-outline:hover {
+            background-color: hsl(var(--accent));
+            color: hsl(var(--accent-foreground));
+        }
+        
+        .icon {
+            width: 1rem;
+            height: 1rem;
+            fill: currentColor;
+        }
+        
+        @media (max-width: 640px) {
+            .profile-container {
+                max-width: none;
+            }
+            
+            .dialog-content {
+                margin: 0;
+                border-radius: 0;
+                max-height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="card">
+            <div class="card-header">
+                <div class="avatar" id="profileAvatar">
+                    <span class="avatar-fallback">👤</span>
+                </div>
+                <h1 class="card-title" id="profileName">Your Name</h1>
+                <p class="card-description" id="profileUniversity">Your University</p>
+                <div class="badges">
+                    <span class="badge" id="profileGrade">Grade Level</span>
+                    <span class="badge" id="profileMajor">Major</span>
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <div class="section">
+                    <h2 class="section-title">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        Interests
+                    </h2>
+                    <div class="interests-grid" id="interestsContainer">
+                        <span class="interest-badge">Add your interests</span>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2 class="section-title">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Contact
+                    </h2>
+                    <div class="contact-list">
+                        <a href="#" class="contact-item" id="linkedinContact">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                <rect width="4" height="12" x="2" y="9"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                            <div class="contact-content">
+                                <div class="contact-label">LinkedIn</div>
+                                <div class="contact-value" id="linkedinValue">Not set</div>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="contact-item" id="phoneContact">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <div class="contact-content">
+                                <div class="contact-label">Phone</div>
+                                <div class="contact-value" id="phoneValue">Not set</div>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="contact-item" id="emailContact">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <div class="contact-content">
+                                <div class="contact-label">Email</div>
+                                <div class="contact-value" id="emailValue">Not set</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="edit-button" onclick="openEditDialog()">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+    </button>
+    
+    <div class="dialog-overlay" id="editDialog">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h2 class="dialog-title">Edit Profile</h2>
+                <p class="dialog-description">Update your professional information and contact details.</p>
+            </div>
+            
+            <div class="dialog-body">
+                <div class="form-group">
+                    <label class="form-label" for="editPictureUrl">Profile Picture URL</label>
+                    <input type="url" class="form-input" id="editPictureUrl" placeholder="https://example.com/your-photo.jpg">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editName">Full Name</label>
+                    <input type="text" class="form-input" id="editName" placeholder="Your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editUniversity">University</label>
+                    <input type="text" class="form-input" id="editUniversity" placeholder="Your university">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editMajor">Major</label>
+                    <input type="text" class="form-input" id="editMajor" placeholder="Your major">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editGrade">Grade Level</label>
+                    <input type="text" class="form-input" id="editGrade" placeholder="Freshman, Sophomore, Junior, Senior, Graduate">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editInterests">Interests</label>
+                    <textarea class="form-input form-textarea" id="editInterests" placeholder="Programming, Photography, Music (separate with commas)"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editLinkedin">LinkedIn URL</label>
+                    <input type="url" class="form-input" id="editLinkedin" placeholder="https://linkedin.com/in/yourprofile">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editPhone">Phone Number</label>
+                    <input type="tel" class="form-input" id="editPhone" placeholder="+1 (555) 123-4567">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editEmail">Email</label>
+                    <input type="email" class="form-input" id="editEmail" placeholder="your.email@example.com">
+                </div>
+            </div>
+            
+            <div class="dialog-footer">
+                <button class="button button-outline" onclick="closeEditDialog()">Cancel</button>
+                <button class="button button-primary" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Profile data object
+        let profileData = {
+            pictureUrl: '',
+            name: 'Your Name',
+            university: 'Your University',
+            major: 'Major',
+            grade: 'Grade Level',
+            interests: ['Add your interests'],
+            linkedin: '',
+            phone: '',
+            email: ''
+        };
+        
+        // Load profile data from memory
+        function loadProfile() {
+            if (window.savedProfile) {
+                profileData = { ...profileData, ...window.savedProfile };
+            }
+            updateDisplay();
+        }
+        
+        // Update the display with current data
+        function updateDisplay() {
+            // Update profile picture
+            const profileAvatar = document.getElementById('profileAvatar');
+            if (profileData.pictureUrl) {
+                profileAvatar.innerHTML = `<img src="${profileData.pictureUrl}" alt="Profile Picture">`;
+            } else {
+                profileAvatar.innerHTML = '<span class="avatar-fallback">👤</span>';
+            }
+            
+            // Update basic info
+            document.getElementById('profileName').textContent = profileData.name;
+            document.getElementById('profileUniversity').textContent = profileData.university;
+            document.getElementById('profileMajor').textContent = profileData.major;
+            document.getElementById('profileGrade').textContent = profileData.grade;
+            
+            // Update interests
+            const interestsContainer = document.getElementById('interestsContainer');
+            interestsContainer.innerHTML = '';
+            profileData.interests.forEach(interest => {
+                const badge = document.createElement('span');
+                badge.className = 'interest-badge';
+                badge.textContent = interest.trim();
+                interestsContainer.appendChild(badge);
+            });
+            
+            // Update contact info
+            updateContactInfo();
+        }
+        
+        // Update contact information with proper links
+        function updateContactInfo() {
+            const linkedinContact = document.getElementById('linkedinContact');
+            const phoneContact = document.getElementById('phoneContact');
+            const emailContact = document.getElementById('emailContact');
+            
+            // LinkedIn
+            if (profileData.linkedin) {
+                linkedinContact.href = profileData.linkedin;
+                document.getElementById('linkedinValue').textContent = profileData.linkedin;
+            } else {
+                linkedinContact.href = '#';
+                document.getElementById('linkedinValue').textContent = 'Not set';
+            }
+            
+            // Phone
+            if (profileData.phone) {
+                phoneContact.href = `tel:${profileData.phone}`;
+                document.getElementById('phoneValue').textContent = profileData.phone;
+            } else {
+                phoneContact.href = '#';
+                document.getElementById('phoneValue').textContent = 'Not set';
+            }
+            
+            // Email
+            if (profileData.email) {
+                emailContact.href = `mailto:${profileData.email}`;
+                document.getElementById('emailValue').textContent = profileData.email;
+            } else {
+                emailContact.href = '#';
+                document.getElementById('emailValue').textContent = 'Not set';
+            }
+        }
+        
+        // Open edit dialog
+        function openEditDialog() {
+            // Populate form with current data
+            document.getElementById('editPictureUrl').value = profileData.pictureUrl || '';
+            document.getElementById('editName').value = profileData.name || '';
+            document.getElementById('editUniversity').value = profileData.university || '';
+            document.getElementById('editMajor').value = profileData.major || '';
+            document.getElementById('editGrade').value = profileData.grade || '';
+            document.getElementById('editInterests').value = profileData.interests.join(', ');
+            document.getElementById('editLinkedin').value = profileData.linkedin || '';
+            document.getElementById('editPhone').value = profileData.phone || '';
+            document.getElementById('editEmail').value = profileData.email || '';
+            
+            document.getElementById('editDialog').style.display = 'flex';
+        }
+        
+        // Close edit dialog
+        function closeEditDialog() {
+            document.getElementById('editDialog').style.display = 'none';
+        }
+        
+        // Save profile changes
+        function saveProfile() {
+            // Get form values
+            profileData.pictureUrl = document.getElementById('editPictureUrl').value.trim();
+            profileData.name = document.getElementById('editName').value.trim() || 'Your Name';
+            profileData.university = document.getElementById('editUniversity').value.trim() || 'Your University';
+            profileData.major = document.getElementById('editMajor').value.trim() || 'Major';
+            profileData.grade = document.getElementById('editGrade').value.trim() || 'Grade Level';
+            
+            // Process interests
+            const interestsText = document.getElementById('editInterests').value.trim();
+            if (interestsText) {
+                profileData.interests = interestsText.split(',').map(interest => interest.trim()).filter(interest => interest);
+            } else {
+                profileData.interests = ['Add your interests'];
+            }
+            
+            profileData.linkedin = document.getElementById('editLinkedin').value.trim();
+            profileData.phone = document.getElementById('editPhone').value.trim();
+            profileData.email = document.getElementById('editEmail').value.trim();
+            
+            // Save to memory
+            window.savedProfile = { ...profileData };
+            
+            // Update display
+            updateDisplay();
+            
+            // Close dialog
+            closeEditDialog();
+        }
+        
+        // Initialize the profile on page load
+        window.addEventListener('load', loadProfile);
+        
+        // Close dialog when clicking overlay
+        document.getElementById('editDialog').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditDialog();
+            }
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeEditDialog();
+            }
+        });
+    </script>
+</body>
+</html>
